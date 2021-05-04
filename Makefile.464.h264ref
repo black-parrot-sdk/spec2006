@@ -1,0 +1,21 @@
+BENCHMARK = 464.h264ref
+
+CFG_TYPE = test
+YUV_TYPE = all
+BENCHMARK_INPS = foreman_test_encoder_baseline.cfg foreman_qcif.yuv
+
+%.cfg:
+	cp $(BENCHMARK_DIR)/data/$(CFG_TYPE)/input/$@ $@
+
+%.yuv:
+	cp $(BENCHMARK_DIR)/data/$(YUV_TYPE)/input/$@ $@
+
+BENCHMARK_DEFS = -DSPEC_CPU
+
+ARGC=$(words $(ARGV))
+ARGV=h264ref -d foreman_test_encoder_baseline.cfg
+
+LFS_BLOCK_SIZE = 128
+LFS_BLOCK_COUNT = 98304 # 12MB
+
+include ./Makefile.common

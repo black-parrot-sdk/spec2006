@@ -1,0 +1,18 @@
+BENCHMARK = 433.milc
+
+INPUT_TYPE = test
+
+BENCHMARK_INPS = stdin
+
+$(BENCHMARK_INPS): %:
+	cp $(BENCHMARK_DIR)/data/$(INPUT_TYPE)/input/su3imp.in $@
+
+BENCHMARK_DEFS = -DSPEC_CPU -DFN -DFAST -DCONGRAD_TMP_VECTORS -DDSLASH_TMP_LINKS
+
+ARGC=$(words $(ARGV))
+ARGV=milc
+
+LFS_BLOCK_SIZE = 128
+LFS_BLOCK_COUNT = 8192 # 1MB
+
+include ./Makefile.common

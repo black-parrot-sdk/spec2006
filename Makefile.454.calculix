@@ -1,0 +1,18 @@
+BENCHMARK = 454.calculix
+
+INPUT_TYPE = test
+
+BENCHMARK_INPS = beampic.inp
+
+$(BENCHMARK_INPS): %:
+	cp $(BENCHMARK_DIR)/data/$(INPUT_TYPE)/input/$@ $@
+
+BENCHMARK_DEFS = -DSPEC_CPU -I$(BENCHMARK_DIR)/src/SPOOLES
+
+ARGC=$(words $(ARGV))
+ARGV=calculix -i $(basename $(BENCHMARK_INPS))
+
+LFS_BLOCK_SIZE = 128
+LFS_BLOCK_COUNT = 8192 # 1MB
+
+include ./Makefile.common

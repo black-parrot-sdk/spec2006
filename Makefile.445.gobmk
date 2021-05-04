@@ -1,0 +1,21 @@
+BENCHMARK = 445.gobmk
+
+INPUT_TYPE = test
+TST_FILE = capture.tst
+BENCHMARK_INPS = stdin games golois
+
+$(filter-out stdin, $(BENCHMARK_INPS)): %:
+	cp -r $(BENCHMARK_DIR)/data/all/input/$@ $@
+
+stdin:
+	cp $(BENCHMARK_DIR)/data/$(INPUT_TYPE)/input/$(TST_FILE) $@
+
+BENCHMARK_DEFS = -DSPEC_CPU -DHAVE_CONFIG_H -I$(BENCHMARK_DIR)/src/include
+
+ARGC=$(words $(ARGV))
+ARGV=gobmk --quiet --mode gtp
+
+LFS_BLOCK_SIZE = 128
+LFS_BLOCK_COUNT = 65536 # 8MB
+
+include ./Makefile.common

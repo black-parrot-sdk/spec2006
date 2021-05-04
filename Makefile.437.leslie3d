@@ -1,0 +1,19 @@
+BENCHMARK = 437.leslie3d
+
+INPUT_TYPE = test
+INPUT_FILE = leslie3d.in
+
+BENCHMARK_INPS = stdin
+
+$(BENCHMARK_INPS): %:
+	cp $(BENCHMARK_DIR)/data/$(INPUT_TYPE)/input/$(INPUT_FILE) $@
+
+BENCHMARK_DEFS =
+
+ARGC=$(words $(ARGV))
+ARGV=leslie3d
+
+LFS_BLOCK_SIZE = 128
+LFS_BLOCK_COUNT = 8192 # 1MB
+
+include ./Makefile.common

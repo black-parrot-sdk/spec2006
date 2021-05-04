@@ -1,0 +1,18 @@
+BENCHMARK = 410.bwaves
+
+INPUT_TYPE = test
+
+BENCHMARK_INPS = bwaves.in
+
+$(BENCHMARK_INPS): %:
+	cp $(BENCHMARK_DIR)/data/$(INPUT_TYPE)/input/$@ $@
+
+BENCHMARK_DEFS =
+
+ARGC=$(words $(ARGV))
+ARGV=bwaves
+
+LFS_BLOCK_SIZE = 128
+LFS_BLOCK_COUNT = 8192 # 1MB
+
+include ./Makefile.common

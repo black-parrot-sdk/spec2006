@@ -1,0 +1,39 @@
+TOP          ?= $(shell git rev-parse --show-toplevel)
+BP_SDK_DIR   ?= $(TOP)/..
+BENCHMARK_DIR = $(BP_SDK_DIR)/spec2006/spec2006/benchspec/CPU2006/$(BENCHMARK)
+PM_FILE       = $(BENCHMARK_DIR)/Spec/object.pm
+MKLFS         = dramfs_mklfs
+
+comma:= ,
+empty:=
+space:= $(empty) $(empty)
+
+VPATH = $(subst $(space),:,$(shell find $(BENCHMARK_DIR)/src -type d))
+vpath %.c ./initlib
+
+RISCV_GCC       = $(CROSS_COMPILE)gcc
+RISCV_GCC_OPTS  = -O2 -mabi=lp64 -march=rv64imafd -mcmodel=medany -mstrict-align -I$(BP_INCLUDE_DIR) -I$(BENCHMARK_DIR)/src
+RISCV_GCC_OPTS += $(BENCHMARK_DEFS)
+RISCV_GCC_OPTS += -D__init_argc=$(ARGC) -D__init_argv=\"$(subst $(space),\"$(comma)\",$(strip $(ARGV)))\"
+RISCV_LINK_OPTS = -T $(BP_LINKER_DIR)/riscv.ld -L$(BP_LIB_DIR) -static -lstdc++ -lgfortran -lm -Wl,--whole-archive -lperch -Wl,--no-whole-archive
+
+BENCHMARK_OBJS = $(addsuffix .o,$(basename $(notdir $(shell perl -I$(dir $(PM_FILE)) -Mobject -e 'print "@sources\n"'))))
+OBJECT_FILES  = lfs.o extra_init.o $(BENCHMARK_OBJS)
+
+SRC_EXT = S c C cc cpp f F f90 F90
+
+define compile_rule
+%.o: %.$1
+	$$(RISCV_GCC) -o $$@ -c $$< $$(RISCV_GCC_OPTS)
+endef
+
+$(BENCHMARK).riscv: $(OBJECT_FILES)
+	$(RISCV_GCC) -o $@ $^ $(RISCV_LINK_OPTS)
+
+$(foreach EXT,$(SRC_EXT),$(eval $(call compile_rule,$(EXT))))
+
+lfs.c: $(BENCHMARK_INPS)
+	$(MKLFS) $(LFS_BLOCK_SIZE) $(LFS_BLOCK_COUNT) $(BENCHMARK_INPS) > $@
+
+clean:
+	rm -rf lfs.c $(OBJECT_FILES) $(BENCHMARK_INPS) *.mod

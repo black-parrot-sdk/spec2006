@@ -1,0 +1,18 @@
+BENCHMARK = 458.sjeng
+
+INPUT_TYPE = test
+
+BENCHMARK_INPS = $(INPUT_TYPE).txt
+
+$(BENCHMARK_INPS): %:
+	cp $(BENCHMARK_DIR)/data/$(INPUT_TYPE)/input/$@ $@
+
+BENCHMARK_DEFS = -DSPEC_CPU
+
+ARGC=$(words $(ARGV))
+ARGV=sjeng $(BENCHMARK_INPS)
+
+LFS_BLOCK_SIZE = 128
+LFS_BLOCK_COUNT = 8192 # 1MB
+
+include ./Makefile.common

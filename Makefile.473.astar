@@ -1,0 +1,18 @@
+BENCHMARK = 473.astar
+
+INPUT_TYPE = test
+
+BENCHMARK_INPS = lake.bin lake.cfg
+
+$(BENCHMARK_INPS): %:
+	cp $(BENCHMARK_DIR)/data/$(INPUT_TYPE)/input/$@ $@
+
+BENCHMARK_DEFS = -DSPEC_CPU -DSPEC_CPU_LITTLE_ENDIAN
+
+ARGC=$(words $(ARGV))
+ARGV=astar lake.cfg
+
+LFS_BLOCK_SIZE = 128
+LFS_BLOCK_COUNT = 8192 # 1MB
+
+include ./Makefile.common

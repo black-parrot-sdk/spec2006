@@ -1,0 +1,13 @@
+BENCHMARK = 447.dealII
+
+BENCHMARK_INPS =
+
+BENCHMARK_DEFS = -DSPEC_CPU -DBOOST_DISABLE_THREADS -Ddeal_II_dimension=3 -I$(BENCHMARK_DIR)/src/include -fpermissive
+
+ARGC=$(words $(ARGV))
+ARGV=dealII 3
+
+LFS_BLOCK_SIZE = 128
+LFS_BLOCK_COUNT = 8192 # 1MB
+
+include ./Makefile.common

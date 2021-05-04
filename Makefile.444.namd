@@ -1,0 +1,18 @@
+BENCHMARK = 444.namd
+
+INPUT_TYPE = all
+
+BENCHMARK_INPS = namd.input
+
+$(BENCHMARK_INPS): %:
+	cp $(BENCHMARK_DIR)/data/$(INPUT_TYPE)/input/$@ $@
+
+BENCHMARK_DEFS = -DSPEC_CPU
+
+ARGC=$(words $(ARGV))
+ARGV=namd --input namd.input --iterations 1 --output namd.out
+
+LFS_BLOCK_SIZE = 128
+LFS_BLOCK_COUNT = 65536 # 8MB
+
+include ./Makefile.common

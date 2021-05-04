@@ -1,0 +1,18 @@
+BENCHMARK = 401.bzip2
+
+INPUT_TYPE = ref
+
+BENCHMARK_INPS = text.html
+
+$(BENCHMARK_INPS): %:
+	cp $(BENCHMARK_DIR)/data/$(INPUT_TYPE)/input/$@ $@
+
+BENCHMARK_DEFS = -DSPEC_CPU -DSPEC_BZIP
+
+ARGC=$(words $(ARGV))
+ARGV=bzip2 $(BENCHMARK_INPS) 1
+
+LFS_BLOCK_SIZE = 128
+LFS_BLOCK_COUNT = 8192 # 1MB
+
+include ./Makefile.common

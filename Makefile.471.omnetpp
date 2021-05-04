@@ -1,0 +1,18 @@
+BENCHMARK = 471.omnetpp
+
+INPUT_TYPE = test
+
+BENCHMARK_INPS = omnetpp.ini
+
+$(BENCHMARK_INPS): %:
+	cp $(BENCHMARK_DIR)/data/$(INPUT_TYPE)/input/$@ $@
+
+BENCHMARK_DEFS = -DSPEC_CPU -I$(BENCHMARK_DIR)/src/omnet_include -I$(BENCHMARK_DIR)/src/libs/envir
+
+ARGC=$(words $(ARGV))
+ARGV=omnetpp $(BENCHMARK_INPS) 
+
+LFS_BLOCK_SIZE = 128
+LFS_BLOCK_COUNT = 8192 # 1MB
+
+include ./Makefile.common

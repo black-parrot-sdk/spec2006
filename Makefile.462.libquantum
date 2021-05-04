@@ -1,0 +1,15 @@
+BENCHMARK = 462.libquantum
+
+INPUT_TYPE = test
+
+BENCHMARK_INPS =
+
+BENCHMARK_DEFS = -DSPEC_CPU -DSPEC_CPU_LINUX
+
+ARGC=$(words $(ARGV))
+ARGV=libquantum $(shell cat $(BENCHMARK_DIR)/data/$(INPUT_TYPE)/input/control | cut -d ' ' -f 2-)
+
+LFS_BLOCK_SIZE = 128
+LFS_BLOCK_COUNT = 8192 # 1MB
+
+include ./Makefile.common

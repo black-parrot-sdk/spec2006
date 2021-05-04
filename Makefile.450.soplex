@@ -1,0 +1,18 @@
+BENCHMARK = 450.soplex
+
+INPUT_TYPE = test
+
+BENCHMARK_INPS = $(INPUT_TYPE).mps
+
+$(BENCHMARK_INPS): %:
+	cp $(BENCHMARK_DIR)/data/$(INPUT_TYPE)/input/$@ $@
+
+BENCHMARK_DEFS = -DSPEC_CPU -DCLK_TCK=60
+
+ARGC=$(words $(ARGV))
+ARGV=soplex -m10000 $(BENCHMARK_INPS)
+
+LFS_BLOCK_SIZE = 128
+LFS_BLOCK_COUNT = 8192 # 1MB
+
+include ./Makefile.common
