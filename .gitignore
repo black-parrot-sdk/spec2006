@@ -1,0 +1,4 @@
+lfs.c
+*.o
+*.riscv
+spec2006
