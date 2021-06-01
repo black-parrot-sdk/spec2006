@@ -1,19 +1,19 @@
 BENCHMARKS = \
-  454.calculix   \
-  437.leslie3d   \
+  401.bzip2      \
   410.bwaves     \
-  473.astar      \
-  471.omnetpp    \
-  464.h264ref    \
-  462.libquantum \
-  458.sjeng      \
-  456.hmmer      \
-  450.soplex     \
-  447.dealII     \
-  445.gobmk      \
-  444.namd       \
   433.milc       \
-  401.bzip2
+  437.leslie3d   \
+  444.namd       \
+  445.gobmk      \
+  447.dealII     \
+  450.soplex     \
+  454.calculix   \
+  456.hmmer      \
+  458.sjeng      \
+  462.libquantum \
+  464.h264ref    \
+  471.omnetpp    \
+  473.astar
 
 NOT_WORKING = \
   400.perlbench \
